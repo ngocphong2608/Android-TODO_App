@@ -1,5 +1,7 @@
 package com.jingoteam.ngocphong.miniproject2_v1;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,12 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.GlobalTask;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    final Context context = this;
     Toolbar toolbar;
     FloatingActionButton fab;
     NavigationView navigationView;
@@ -39,8 +48,31 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final Dialog dlg = new Dialog(context);
+                dlg.setContentView(R.layout.new_task);
+                dlg.setTitle("New Task");
+
+                Button add = (Button)dlg.findViewById(R.id.add_task);
+                final EditText etContent = (EditText)dlg.findViewById(R.id.task_content);
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String content = etContent.getText().toString();
+
+                        if (!content.contentEquals("")){
+                            Task task = new Task(content, new Date(System.currentTimeMillis()));
+                            TaskManager.addTask(task);
+
+                            // refresh list view
+                            refreshListViewTask();
+                        }
+
+                        dlg.dismiss();
+                    }
+                });
+
+                dlg.show();
             }
         });
 
@@ -52,6 +84,11 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void refreshListViewTask() {
+        ListView listView = (ListView)findViewById(R.id.global_task_listview);
+        listView.setAdapter(new ListViewTaskAdapter(this, TaskManager.getTaskList()));
     }
 
     @Override
@@ -93,7 +130,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.global_task) {
-            // Handle the camera action
+            GlobalTask fragment = new GlobalTask();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
