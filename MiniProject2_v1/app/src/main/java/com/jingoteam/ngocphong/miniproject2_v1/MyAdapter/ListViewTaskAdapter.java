@@ -12,7 +12,10 @@ import android.widget.ListAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.zip.CheckedInputStream;
 
 /**
@@ -74,6 +77,10 @@ public class ListViewTaskAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = inflater.inflate(R.layout.listview_item, null);
         CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox_task);
+
+//        DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm:ss z");
+//        date.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+//        String localTime = date.format(taskList.get(position).getCreatedDate());
 
         checkBox.setText(taskList.get(position).getContent());
 

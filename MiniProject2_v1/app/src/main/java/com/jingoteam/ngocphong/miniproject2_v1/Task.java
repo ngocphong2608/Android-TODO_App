@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by NgocPhong on 29/05/2016.
  */
-public class Task {
+public class Task implements java.io.Serializable{
     private String content;
     private Date createdDate;
 

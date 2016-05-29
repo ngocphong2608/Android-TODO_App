@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // main page
         GlobalTask fragment = new GlobalTask();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
                         if (!content.contentEquals("")){
                             Task task = new Task(content, new Date(System.currentTimeMillis()));
-                            TaskManager.addTask(task);
+                            TaskManager.addTask(context, task);
 
                             // refresh list view
                             refreshListViewTask();
@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TaskManager.loadAllTask(this);
     }
 
     public void refreshListViewTask() {
@@ -131,6 +133,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.global_task) {
             GlobalTask fragment = new GlobalTask();
+
+            Bundle bd = new Bundle();
+            bd.putSerializable("date", new Date(System.currentTimeMillis()));
+
+            fragment.setArguments(bd);
+
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
