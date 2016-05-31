@@ -3,17 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/global_task"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Global Tasks" />
+            android:id="@+id/today_task"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Today Tasks" />
         <item
             android:id="@+id/yesterday_task"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Yesterday Tasks" />
-        <item
-            android:id="@+id/today_task"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Today Tasks" />
         <item
             android:id="@+id/tomorrow_task"
             android:icon="@drawable/ic_menu_manage"

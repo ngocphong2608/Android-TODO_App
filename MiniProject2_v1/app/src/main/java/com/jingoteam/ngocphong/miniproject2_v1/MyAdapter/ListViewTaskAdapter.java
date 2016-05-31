@@ -1,16 +1,22 @@
 package com.jingoteam.ngocphong.miniproject2_v1.MyAdapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
+import com.jingoteam.ngocphong.miniproject2_v1.DateManager;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
+import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -74,15 +80,43 @@ public class ListViewTaskAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = inflater.inflate(R.layout.listview_item, null);
         CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox_task);
+        TextView textView = (TextView)rowView.findViewById(R.id.et_task_content);
 
 //        DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm:ss z");
 //        date.setTimeZone(TimeZone.getTimeZone("GMT+7"));
 //        String localTime = date.format(taskList.get(position).getCreatedDate());
 
-        checkBox.setText(taskList.get(position).getContent());
+        textView.setText(taskList.get(position).getContent());
+        final Task task = taskList.get(position);
+
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dlg = new Dialog(context);
+                dlg.setContentView(R.layout.task_detail);
+                dlg.setTitle("Task Details");
+
+                TextView content = (TextView)dlg.findViewById(R.id.task_content);
+                TextView date = (TextView)dlg.findViewById(R.id.task_date);
+                Button remove = (Button)dlg.findViewById(R.id.btn_remove_task);
+
+                content.setText(task.getContent());
+                date.setText(DateManager.convertDateToString(task.getCreatedDate()));
+                remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TaskManager.removeTask(context, task);
+                        dlg.dismiss();
+                    }
+                });
+
+                dlg.show();
+            }
+        });
 
         return rowView;
     }

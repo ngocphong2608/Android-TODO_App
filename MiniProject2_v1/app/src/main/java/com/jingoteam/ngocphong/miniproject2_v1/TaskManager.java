@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,5 +73,34 @@ public class TaskManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Task getTask(int position) {
+        return taskList.get(position);
+    }
+
+    public static void removeTask(Context context, Task task) {
+        taskList.remove(task);
+        saveAllTask(context);
+    }
+
+    public static List<Task> getTaskList(Date date) {
+        List<Task> subList = new ArrayList<>();
+
+
+
+        for(Task task : taskList) {
+
+            if (compareDate(date, task.getCreatedDate()))
+                subList.add(task);
+        }
+
+        return subList;
+    }
+
+    private static boolean compareDate(Date date1, Date date2) {
+        return date1.getDate() == date2.getDate() &&
+                date1.getMonth() == date2.getMonth() &&
+                date1.getYear() == date2.getYear();
     }
 }
