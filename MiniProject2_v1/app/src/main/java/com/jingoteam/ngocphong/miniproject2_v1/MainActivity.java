@@ -1,5 +1,6 @@
 package com.jingoteam.ngocphong.miniproject2_v1;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
 
         TaskManager.saveAllTask(this);
+        ConfigManager.saveAllConfig(this);
     }
 
     protected void onResume(){
@@ -55,12 +57,50 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
 
         TaskManager.saveAllTask(this);
+        ConfigManager.saveAllConfig(this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ConfigManager.loadAllConfig(this);
+
+        if (ConfigManager.isFirstUse){
+            setContentView(R.layout.setting_dialog);
+            Button btn = (Button)findViewById(R.id.btn_setting_ok);
+
+            RadioGroup group = (RadioGroup)findViewById(R.id.rg_task_per_day);
+
+            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    if (checkedId == R.id.task_per_day_3) {
+                        ConfigManager.taskPerDay = 3;
+                    } else if (checkedId == R.id.task_per_day_5) {
+                        ConfigManager.taskPerDay = 5;
+                    } else if (checkedId == R.id.task_per_day_7) {
+                        ConfigManager.taskPerDay = 7;
+                    }
+                }
+            });
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startMainActivity();
+                }
+            });
+        } else {
+            startMainActivity();
+        }
+
+
+    }
+
+    public void startMainActivity(){
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -96,10 +136,14 @@ public class MainActivity extends AppCompatActivity
 
                         if (!content.contentEquals("")){
                             Task task = new Task(content, d);
-                            TaskManager.addTask(context, task);
+                            boolean succ = TaskManager.addTask(context, task);
 
-                            // refresh list view
-                            refreshListViewTask();
+                            if (succ) {
+                                // refresh list view
+                                refreshListViewTask();
+                            } else {
+                                Toast.makeText(context, "You have enough " + ConfigManager.taskPerDay + " Tasks", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         dlg.dismiss();
@@ -207,22 +251,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-
         DateTime now = DateTime.now();
         boolean isFinished = false;
 
         if (id == R.id.today_task) {
+            setTitle("Today Tasks");
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TODAY;
         } else if (id == R.id.yesterday_task){
+            setTitle("Yesterday Tasks");
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.YESTERDAY;
             now = now.minusDays(1);
         } else if (id == R.id.tomorrow_task){
+            setTitle("Tomorrow Tasks");
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TOMORROW;
             now = now.plusDays(1);
         } else if (id == R.id.finished_task){
+            setTitle("Finished Tasks");
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.FINISHED;
             isFinished = true;
         } else if (id == R.id.unfinished_task){
+            setTitle("UnFinished Tasks");
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.UNFINISHED;
             isFinished = false;
         }

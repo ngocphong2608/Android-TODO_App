@@ -49,7 +49,6 @@ public class GlobalTask extends Fragment {
         ListViewTaskAdapter listViewTaskAdapter = new ListViewTaskAdapter(getContext(), tasks);
         listView.setAdapter(listViewTaskAdapter);
 
-
         return view;
     }
 
