@@ -15,9 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.AllTask;
@@ -157,6 +161,39 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Dialog dlg = new Dialog(this);
+            dlg.setTitle("Setting");
+            dlg.setContentView(R.layout.setting_dialog);
+
+            RadioButton button;
+            RadioGroup group = (RadioGroup) dlg.findViewById(R.id.rg_task_per_day);
+
+            if (ConfigManager.taskPerDay == 3) {
+                button = (RadioButton) dlg.findViewById(R.id.task_per_day_3);
+                button.setChecked(true);
+            } else if (ConfigManager.taskPerDay == 5){
+                button = (RadioButton)dlg.findViewById(R.id.task_per_day_5);
+                button.setChecked(true);
+            } else if (ConfigManager.taskPerDay == 7){
+                button = (RadioButton)dlg.findViewById(R.id.task_per_day_7);
+                button.setChecked(true);
+            }
+
+            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    if (checkedId == R.id.task_per_day_3) {
+                        ConfigManager.taskPerDay = 3;
+                    } else if (checkedId == R.id.task_per_day_5) {
+                        ConfigManager.taskPerDay = 5;
+                    } else if (checkedId == R.id.task_per_day_7) {
+                        ConfigManager.taskPerDay = 7;
+                    }
+                }
+            });
+
+            dlg.show();
+
             return true;
         }
 
@@ -215,6 +252,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.commit();
                 break;
             }
+
         }
 
 

@@ -7,4 +7,5 @@ public class ConfigManager {
     enum MENU_ITEM{YESTERDAY, TODAY, TOMORROW, UNFINISHED, FINISHED}
     public static MENU_ITEM selectedItem = MENU_ITEM.TODAY;
     public static String saveTaskFileName = "AllTask.dat";
+    public static int taskPerDay = 3;
 }
