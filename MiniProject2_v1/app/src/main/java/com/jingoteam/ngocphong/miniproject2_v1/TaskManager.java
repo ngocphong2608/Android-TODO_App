@@ -2,6 +2,8 @@ package com.jingoteam.ngocphong.miniproject2_v1;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -84,7 +86,7 @@ public class TaskManager {
         saveAllTask(context);
     }
 
-    public static List<Task> getTaskList(Date date) {
+    public static List<Task> getTaskList(DateTime date) {
         List<Task> subList = new ArrayList<>();
 
 
@@ -98,9 +100,9 @@ public class TaskManager {
         return subList;
     }
 
-    private static boolean compareDate(Date date1, Date date2) {
-        return date1.getDate() == date2.getDate() &&
-                date1.getMonth() == date2.getMonth() &&
+    private static boolean compareDate(DateTime date1, DateTime date2) {
+        return date1.getDayOfMonth() == date2.getDayOfMonth() &&
+                date1.getMonthOfYear() == date2.getMonthOfYear() &&
                 date1.getYear() == date2.getYear();
     }
 }

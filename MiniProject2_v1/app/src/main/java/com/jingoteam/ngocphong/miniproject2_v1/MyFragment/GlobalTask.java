@@ -17,6 +17,8 @@ import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +26,9 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class GlobalTask extends Fragment {
-    private Date date;
+    private DateTime date;
 
-    public void setDate(Date d){
+    public void setDate(DateTime d){
         date = d;
     }
 

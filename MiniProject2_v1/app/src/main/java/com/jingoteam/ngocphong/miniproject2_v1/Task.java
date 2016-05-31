@@ -1,5 +1,7 @@
 package com.jingoteam.ngocphong.miniproject2_v1;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 /**
@@ -7,9 +9,9 @@ import java.util.Date;
  */
 public class Task implements java.io.Serializable{
     private String content;
-    private Date createdDate;
+    private DateTime createdDate;
 
-    public Task(String content, Date createdDate){
+    public Task(String content, DateTime createdDate){
         this.content = content;
         this.createdDate = createdDate;
     }
@@ -22,11 +24,11 @@ public class Task implements java.io.Serializable{
         this.content = content;
     }
 
-    public Date getCreatedDate() {
+    public DateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(DateTime createdDate) {
         this.createdDate = createdDate;
     }
 }

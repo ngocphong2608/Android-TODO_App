@@ -18,6 +18,9 @@ import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -105,7 +108,10 @@ public class ListViewTaskAdapter extends BaseAdapter {
                 Button remove = (Button)dlg.findViewById(R.id.btn_remove_task);
 
                 content.setText(task.getContent());
-                date.setText(DateManager.convertDateToString(task.getCreatedDate()));
+                DateTime dateTime = task.getCreatedDate();
+                dateTime = dateTime.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT+7")));
+
+                date.setText(dateTime.toString());
                 remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

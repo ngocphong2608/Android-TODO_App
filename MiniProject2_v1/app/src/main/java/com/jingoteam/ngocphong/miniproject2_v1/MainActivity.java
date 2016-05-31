@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.GlobalTask;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity
 
         // main page
         GlobalTask fragment = new GlobalTask();
-        fragment.setDate(new Date(System.currentTimeMillis()));
+        fragment.setDate(DateTime.now());
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
@@ -61,12 +63,12 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         String content = etContent.getText().toString();
-                        Date d = new Date(System.currentTimeMillis());
+                        DateTime d = DateTime.now();
 
                         if (ConfigManager.selectedItem == ConfigManager.MENU_ITEM.YESTERDAY) {
-                            d = DateManager.addDate(d, -1);
+                            d = d.minusDays(1);
                         } else if (ConfigManager.selectedItem == ConfigManager.MENU_ITEM.TOMORROW){
-                            d = DateManager.addDate(d, 1);
+                            d = d.plusDays(1);
                         }
 
                         if (!content.contentEquals("")){
@@ -99,12 +101,12 @@ public class MainActivity extends AppCompatActivity
 
     public void refreshListViewTask() {
         ListView listView = (ListView)findViewById(R.id.global_task_listview);
-        Date now = new Date(System.currentTimeMillis());
+        DateTime now = DateTime.now();
 
         if (ConfigManager.selectedItem == ConfigManager.MENU_ITEM.YESTERDAY){
-            now = DateManager.addDate(now, -1);
+            now = now.minusDays(1);
         } else if (ConfigManager.selectedItem == ConfigManager.MENU_ITEM.TOMORROW){
-            now = DateManager.addDate(now, 1);
+            now = now.plusDays(1);
         }
 
         listView.setAdapter(new ListViewTaskAdapter(this, TaskManager.getTaskList(now)));
@@ -149,18 +151,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         GlobalTask fragment = new GlobalTask();
+        DateTime now = DateTime.now();
 
         if (id == R.id.today_task) {
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TODAY;
-            fragment.setDate(new Date(System.currentTimeMillis()));
+            fragment.setDate(now);
         } else if (id == R.id.yesterday_task){
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.YESTERDAY;
-            Date yesterday = DateManager.addDate(new Date(System.currentTimeMillis()), -1);
-            fragment.setDate(yesterday);
+            fragment.setDate(now.minusDays(1));
         } else if (id == R.id.tomorrow_task){
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TOMORROW;
-            Date yesterday = DateManager.addDate(new Date(System.currentTimeMillis()), 1);
-            fragment.setDate(yesterday);
+            fragment.setDate(now.plusDays(1));
         }
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
