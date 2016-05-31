@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
                                 // refresh list view
                                 refreshListViewTask();
                             } else {
-                                Toast.makeText(context, "You have enough " + ConfigManager.taskPerDay + " Tasks", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "You have enough " + ConfigManager.taskPerDay + " Tasks", Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         if (ConfigManager.isFirstUse) {
-            fab.setEnabled(false);
             showSettingDialog();
         }
 

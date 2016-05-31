@@ -125,6 +125,7 @@ public class ListViewTaskAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         TaskManager.removeTask(context, task);
+                        taskList.remove(task);
 
                         dlg.dismiss();
 
@@ -134,10 +135,6 @@ public class ListViewTaskAdapter extends BaseAdapter {
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Task newTask = new Task(content.getText().toString(), task.getCreatedDate());
-//                        newTask.setFinished(task.isFinished());
-//                        TaskManager.removeTask(context, task);
-//                        TaskManager.addTask(context, newTask);
                         task.setContent(content.getText().toString());
                         dlg.dismiss();
                     }
