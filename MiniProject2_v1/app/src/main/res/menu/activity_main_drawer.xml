@@ -3,6 +3,7 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:checked="true"
             android:id="@+id/today_task"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Today Tasks" />
@@ -14,19 +15,23 @@
             android:id="@+id/tomorrow_task"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tomorrow Tasks" />
+
+        <item android:title="All Tasks">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/unfinished_task"
+                        android:icon="@drawable/ic_menu_share"
+                        android:title="Unfinished Tasks" />
+                    <item
+                        android:id="@+id/finished_task"
+                        android:icon="@drawable/ic_menu_send"
+                        android:title="Finished Tasks" />
+                </group>
+            </menu>
+        </item>
     </group>
 
-    <item android:title="View Tasks">
-        <menu>
-            <item
-                android:id="@+id/unfinished_task"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Unfinished Tasks" />
-            <item
-                android:id="@+id/finished_task"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Finished Tasks" />
-        </menu>
-    </item>
+
 
 </menu>

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
+import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.AllTask;
 import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.GlobalTask;
 
 import org.joda.time.DateTime;
@@ -33,6 +34,24 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     FloatingActionButton fab;
     NavigationView navigationView;
+
+    protected void onPause(){
+        super.onPause();
+
+        TaskManager.saveAllTask(this);
+    }
+
+    protected void onResume(){
+        super.onResume();
+
+        TaskManager.loadAllTask(this);
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+
+        TaskManager.saveAllTask(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,23 +169,55 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        GlobalTask fragment = new GlobalTask();
+
+
         DateTime now = DateTime.now();
+        boolean isFinished = false;
 
         if (id == R.id.today_task) {
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TODAY;
-            fragment.setDate(now);
         } else if (id == R.id.yesterday_task){
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.YESTERDAY;
-            fragment.setDate(now.minusDays(1));
+            now = now.minusDays(1);
         } else if (id == R.id.tomorrow_task){
             ConfigManager.selectedItem = ConfigManager.MENU_ITEM.TOMORROW;
-            fragment.setDate(now.plusDays(1));
+            now = now.plusDays(1);
+        } else if (id == R.id.finished_task){
+            ConfigManager.selectedItem = ConfigManager.MENU_ITEM.FINISHED;
+            isFinished = true;
+        } else if (id == R.id.unfinished_task){
+            ConfigManager.selectedItem = ConfigManager.MENU_ITEM.UNFINISHED;
+            isFinished = false;
         }
 
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
+        switch (id) {
+            case R.id.today_task:
+            case R.id.tomorrow_task:
+            case R.id.yesterday_task: {
+                fab.setVisibility(View.VISIBLE);
+
+                GlobalTask fragment = new GlobalTask();
+                fragment.setDate(now);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
+                break;
+            }
+            case R.id.finished_task:
+            case R.id.unfinished_task:{
+                fab.setVisibility(View.INVISIBLE);
+
+                AllTask allTask = new AllTask();
+                allTask.setFinished(isFinished);
+
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, allTask);
+                fragmentTransaction.commit();
+                break;
+            }
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -94,6 +95,7 @@ public class ListViewTaskAdapter extends BaseAdapter {
 
         textView.setText(taskList.get(position).getContent());
         final Task task = taskList.get(position);
+        checkBox.setChecked(task.isFinished());
 
 
         textView.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +123,14 @@ public class ListViewTaskAdapter extends BaseAdapter {
                 });
 
                 dlg.show();
+            }
+        });
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                task.setFinished(isChecked);
+
             }
         });
 

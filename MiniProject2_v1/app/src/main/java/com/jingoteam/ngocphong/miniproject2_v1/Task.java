@@ -10,10 +10,20 @@ import java.util.Date;
 public class Task implements java.io.Serializable{
     private String content;
     private DateTime createdDate;
+    private boolean finished;
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 
     public Task(String content, DateTime createdDate){
         this.content = content;
         this.createdDate = createdDate;
+        finished = false;
     }
 
     public String getContent() {

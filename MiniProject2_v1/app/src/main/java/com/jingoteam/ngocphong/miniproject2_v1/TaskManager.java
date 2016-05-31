@@ -30,7 +30,6 @@ public class TaskManager {
 
     public static void addTask(Context context, Task task){
         taskList.add(task);
-        saveAllTask(context);
     }
 
     public static void loadAllTask(Context context){
@@ -67,7 +66,7 @@ public class TaskManager {
             }
         } else {
 
-            ObjectOutputStream outputStream = null;
+            ObjectOutputStream outputStream;
             try {
                 outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
                 outputStream.writeObject(taskList);
@@ -98,6 +97,17 @@ public class TaskManager {
         }
 
         return subList;
+    }
+
+    public static List<Task> getTaskList(boolean isFinished) {
+        List<Task> res = new ArrayList<>();
+
+        for (Task task : taskList){
+            if (task.isFinished() == isFinished)
+                res.add(task);
+        }
+
+        return res;
     }
 
     private static boolean compareDate(DateTime date1, DateTime date2) {
