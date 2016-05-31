@@ -1,11 +1,9 @@
 package com.jingoteam.ngocphong.miniproject2_v1;
 
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,12 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
@@ -29,8 +25,6 @@ import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.AllTask;
 import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.GlobalTask;
 
 import org.joda.time.DateTime;
-
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,17 +34,12 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fab;
     NavigationView navigationView;
 
+
     protected void onPause(){
         super.onPause();
 
         TaskManager.saveAllTask(this);
         ConfigManager.saveAllConfig(this);
-    }
-
-    protected void onResume(){
-        super.onResume();
-
-        TaskManager.loadAllTask(this);
     }
 
     protected void onDestroy(){
@@ -65,38 +54,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         ConfigManager.loadAllConfig(this);
-
-        if (ConfigManager.isFirstUse){
-            setContentView(R.layout.setting_dialog);
-            Button btn = (Button)findViewById(R.id.btn_setting_ok);
-
-            RadioGroup group = (RadioGroup)findViewById(R.id.rg_task_per_day);
-
-            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    if (checkedId == R.id.task_per_day_3) {
-                        ConfigManager.taskPerDay = 3;
-                    } else if (checkedId == R.id.task_per_day_5) {
-                        ConfigManager.taskPerDay = 5;
-                    } else if (checkedId == R.id.task_per_day_7) {
-                        ConfigManager.taskPerDay = 7;
-                    }
-                }
-            });
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startMainActivity();
-                }
-            });
-        } else {
-            startMainActivity();
-        }
-
-
+        startMainActivity();
     }
+
 
     public void startMainActivity(){
         setContentView(R.layout.activity_main);
@@ -104,12 +64,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // main page
-        GlobalTask fragment = new GlobalTask();
-        fragment.setDate(DateTime.now());
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +107,19 @@ public class MainActivity extends AppCompatActivity
                 dlg.show();
             }
         });
+
+        // main page
+        setTitle("Today Tasks");
+        GlobalTask fragment = new GlobalTask();
+        fragment.setDate(DateTime.now());
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+
+        if (ConfigManager.isFirstUse) {
+            fab.setEnabled(false);
+            showSettingDialog();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -205,38 +172,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Dialog dlg = new Dialog(this);
-            dlg.setTitle("Setting");
-            dlg.setContentView(R.layout.setting_dialog);
-
-            RadioButton button;
-            RadioGroup group = (RadioGroup) dlg.findViewById(R.id.rg_task_per_day);
-
-            if (ConfigManager.taskPerDay == 3) {
-                button = (RadioButton) dlg.findViewById(R.id.task_per_day_3);
-                button.setChecked(true);
-            } else if (ConfigManager.taskPerDay == 5){
-                button = (RadioButton)dlg.findViewById(R.id.task_per_day_5);
-                button.setChecked(true);
-            } else if (ConfigManager.taskPerDay == 7){
-                button = (RadioButton)dlg.findViewById(R.id.task_per_day_7);
-                button.setChecked(true);
-            }
-
-            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    if (checkedId == R.id.task_per_day_3) {
-                        ConfigManager.taskPerDay = 3;
-                    } else if (checkedId == R.id.task_per_day_5) {
-                        ConfigManager.taskPerDay = 5;
-                    } else if (checkedId == R.id.task_per_day_7) {
-                        ConfigManager.taskPerDay = 7;
-                    }
-                }
-            });
-
-            dlg.show();
+            showSettingDialog();
 
             return true;
         }
@@ -244,12 +180,54 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void showSettingDialog(){
+        final Dialog dlg = new Dialog(this);
+        dlg.setTitle("Setting");
+        dlg.setContentView(R.layout.setting_dialog);
+
+        RadioButton button;
+        RadioGroup group = (RadioGroup) dlg.findViewById(R.id.rg_task_per_day);
+
+        if (ConfigManager.taskPerDay == 3) {
+            button = (RadioButton) dlg.findViewById(R.id.task_per_day_3);
+            button.setChecked(true);
+        } else if (ConfigManager.taskPerDay == 5){
+            button = (RadioButton)dlg.findViewById(R.id.task_per_day_5);
+            button.setChecked(true);
+        } else if (ConfigManager.taskPerDay == 7){
+            button = (RadioButton)dlg.findViewById(R.id.task_per_day_7);
+            button.setChecked(true);
+        }
+
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.task_per_day_3) {
+                    ConfigManager.taskPerDay = 3;
+                } else if (checkedId == R.id.task_per_day_5) {
+                    ConfigManager.taskPerDay = 5;
+                } else if (checkedId == R.id.task_per_day_7) {
+                    ConfigManager.taskPerDay = 7;
+                }
+            }
+        });
+
+        Button btnOK = (Button)dlg.findViewById(R.id.btn_setting_ok);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dlg.dismiss();
+            }
+        });
+
+        dlg.show();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
         DateTime now = DateTime.now();
         boolean isFinished = false;
@@ -302,7 +280,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

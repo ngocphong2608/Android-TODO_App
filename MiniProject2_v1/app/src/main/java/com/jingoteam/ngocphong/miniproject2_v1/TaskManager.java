@@ -119,4 +119,11 @@ public class TaskManager {
                 date3.getMonthOfYear() == date4.getMonthOfYear() &&
                 date3.getYear() == date4.getYear();
     }
+
+    public static void updateTask(Task task) {
+        for (int i = 0; i < taskList.size(); i++){
+            String s1 = taskList.get(i).getContent();
+            String s2 = task.getContent();
+        }
+    }
 }

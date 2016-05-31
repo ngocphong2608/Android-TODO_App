@@ -2,6 +2,7 @@ package com.jingoteam.ngocphong.miniproject2_v1.MyAdapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.jingoteam.ngocphong.miniproject2_v1.DateManager;
+import com.jingoteam.ngocphong.miniproject2_v1.MainActivity;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
@@ -33,6 +35,7 @@ import java.util.zip.CheckedInputStream;
  */
 public class ListViewTaskAdapter extends BaseAdapter {
     List<Task> taskList;
+
     LayoutInflater inflater;
     Context context;
 
@@ -93,8 +96,9 @@ public class ListViewTaskAdapter extends BaseAdapter {
 //        date.setTimeZone(TimeZone.getTimeZone("GMT+7"));
 //        String localTime = date.format(taskList.get(position).getCreatedDate());
 
-        textView.setText(taskList.get(position).getContent());
+
         final Task task = taskList.get(position);
+        textView.setText(task.getContent());
         checkBox.setChecked(task.isFinished());
 
 
@@ -102,22 +106,39 @@ public class ListViewTaskAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 final Dialog dlg = new Dialog(context);
+
                 dlg.setContentView(R.layout.task_detail);
                 dlg.setTitle("Task Details");
 
-                TextView content = (TextView)dlg.findViewById(R.id.task_content);
+                final EditText content = (EditText)dlg.findViewById(R.id.task_content);
                 TextView date = (TextView)dlg.findViewById(R.id.task_date);
                 Button remove = (Button)dlg.findViewById(R.id.btn_remove_task);
+                Button save = (Button)dlg.findViewById(R.id.btn_save_task);
 
                 content.setText(task.getContent());
+
                 DateTime dateTime = task.getCreatedDate();
                 dateTime = dateTime.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT+7")));
+                date.setText("Created date: " + dateTime.toLocalDate().toString());
 
-                date.setText(dateTime.toString());
                 remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         TaskManager.removeTask(context, task);
+
+                        dlg.dismiss();
+
+                    }
+                });
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Task newTask = new Task(content.getText().toString(), task.getCreatedDate());
+//                        newTask.setFinished(task.isFinished());
+//                        TaskManager.removeTask(context, task);
+//                        TaskManager.addTask(context, newTask);
+                        task.setContent(content.getText().toString());
                         dlg.dismiss();
                     }
                 });

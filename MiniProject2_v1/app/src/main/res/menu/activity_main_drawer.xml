@@ -5,15 +5,15 @@
         <item
             android:checked="true"
             android:id="@+id/today_task"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_today_1"
             android:title="Today Tasks" />
         <item
             android:id="@+id/yesterday_task"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_yesterday"
             android:title="Yesterday Tasks" />
         <item
             android:id="@+id/tomorrow_task"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_tomorrow"
             android:title="Tomorrow Tasks" />
 
         <item android:title="All Tasks">
@@ -21,11 +21,11 @@
                 <group android:checkableBehavior="single">
                     <item
                         android:id="@+id/unfinished_task"
-                        android:icon="@drawable/ic_menu_share"
-                        android:title="Unfinished Tasks" />
+                        android:icon="@drawable/ic_menu_unfinished"
+                        android:title="UnFinished Tasks" />
                     <item
                         android:id="@+id/finished_task"
-                        android:icon="@drawable/ic_menu_send"
+                        android:icon="@drawable/ic_menu_finished"
                         android:title="Finished Tasks" />
                 </group>
             </menu>
