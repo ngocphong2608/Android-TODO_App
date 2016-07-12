@@ -45,7 +45,7 @@ public class AllTask extends Fragment {
         List<Task> tasks = TaskManager.getTaskList(finished);
 
         ListView listView = (ListView)view.findViewById(R.id.global_task_listview);
-        ListViewTaskAdapter listViewTaskAdapter = new ListViewTaskAdapter(getContext(), tasks);
+        ListViewTaskAdapter listViewTaskAdapter = new ListViewTaskAdapter((MainActivity)getActivity(), tasks);
         listView.setAdapter(listViewTaskAdapter);
 
 

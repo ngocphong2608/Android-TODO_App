@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jingoteam.ngocphong.miniproject2_v1.MainActivity;
 import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
@@ -27,6 +28,8 @@ import java.util.List;
  */
 public class GlobalTask extends Fragment {
     private DateTime date;
+    private ListView myListView = null;
+    private ListViewTaskAdapter adapter;
 
     public void setDate(DateTime d){
         date = d;
@@ -45,9 +48,11 @@ public class GlobalTask extends Fragment {
 
         List<Task> tasks = TaskManager.getTaskList(date);
 
-        ListView listView = (ListView)view.findViewById(R.id.global_task_listview);
-        ListViewTaskAdapter listViewTaskAdapter = new ListViewTaskAdapter(getContext(), tasks);
-        listView.setAdapter(listViewTaskAdapter);
+        myListView = (ListView)view.findViewById(R.id.global_task_listview);
+        adapter = new ListViewTaskAdapter((MainActivity)getActivity(), tasks);
+        adapter.notifyDataSetChanged();
+
+        myListView.setAdapter(adapter);
 
         return view;
     }

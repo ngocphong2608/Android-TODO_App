@@ -37,18 +37,20 @@ public class ListViewTaskAdapter extends BaseAdapter {
     List<Task> taskList;
 
     LayoutInflater inflater;
-    Context context;
+//    Context context;
+    MainActivity activity;
 
-    public ListViewTaskAdapter(Context context, List<Task> tasks){
-        this.context = context;
+    public ListViewTaskAdapter(MainActivity activity, List<Task> tasks){
+//        this.context = context;
         this.taskList = tasks;
+        this.activity = activity;
 
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public boolean areAllItemsEnabled() {
-        return false;
+        return true;
     }
 
     @Override
@@ -105,7 +107,7 @@ public class ListViewTaskAdapter extends BaseAdapter {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dlg = new Dialog(context);
+                final Dialog dlg = new Dialog(activity);
 
                 dlg.setContentView(R.layout.task_detail);
                 dlg.setTitle("Task Details");
@@ -124,11 +126,11 @@ public class ListViewTaskAdapter extends BaseAdapter {
                 remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TaskManager.removeTask(context, task);
+                        TaskManager.removeTask(task);
                         taskList.remove(task);
 
                         dlg.dismiss();
-
+                        refreshListView();
                     }
                 });
 
@@ -137,6 +139,7 @@ public class ListViewTaskAdapter extends BaseAdapter {
                     public void onClick(View v) {
                         task.setContent(content.getText().toString());
                         dlg.dismiss();
+                        refreshListView();
                     }
                 });
 
@@ -155,6 +158,10 @@ public class ListViewTaskAdapter extends BaseAdapter {
         return rowView;
     }
 
+    public void refreshListView(){
+        activity.refreshListViewTask();
+    }
+
     @Override
     public int getItemViewType(int position) {
         return 0;
@@ -167,6 +174,6 @@ public class ListViewTaskAdapter extends BaseAdapter {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return taskList.size() == 0;
     }
 }

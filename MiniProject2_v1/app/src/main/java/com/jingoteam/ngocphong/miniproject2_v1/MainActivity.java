@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity
         ConfigManager.saveAllConfig(this);
     }
 
+
+
     protected void onDestroy(){
         super.onDestroy();
 
-        TaskManager.saveAllTask(this);
-        ConfigManager.saveAllConfig(this);
     }
 
     @Override

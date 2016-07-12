@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,6 +56,7 @@ public class TaskManager {
             try {
                 inputStream = new ObjectInputStream(new FileInputStream(filePath));
                 taskList = (List<Task>)inputStream.readObject();
+                inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -74,6 +76,8 @@ public class TaskManager {
             try {
                 outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
                 outputStream.writeObject(taskList);
+                outputStream.flush();
+                outputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,9 +88,8 @@ public class TaskManager {
         return taskList.get(position);
     }
 
-    public static void removeTask(Context context, Task task) {
+    public static void removeTask(Task task) {
         taskList.remove(task);
-        saveAllTask(context);
     }
 
     public static List<Task> getTaskList(DateTime date) {
@@ -111,19 +114,17 @@ public class TaskManager {
         return res;
     }
 
+//    private static DateTimeZone dateTimeZone = DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT+7"));
     private static boolean compareDate(DateTime date1, DateTime date2) {
-        DateTime date3 = date1.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT+7")));
-        DateTime date4 = date2.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT+7")));
+        LocalDate d1 = new LocalDate(date1);
+        LocalDate d2 = new LocalDate(date2);
 
-        return date3.getDayOfMonth() == date4.getDayOfMonth() &&
-                date3.getMonthOfYear() == date4.getMonthOfYear() &&
-                date3.getYear() == date4.getYear();
-    }
-
-    public static void updateTask(Task task) {
-        for (int i = 0; i < taskList.size(); i++){
-            String s1 = taskList.get(i).getContent();
-            String s2 = task.getContent();
-        }
+        return d1.compareTo(d2) == 0;
+//        DateTime date3 = date1.withZone(dateTimeZone);
+//        DateTime date4 = date2.withZone(dateTimeZone);
+//
+//        return date3.getDayOfMonth() == date4.getDayOfMonth() &&
+//                date3.getMonthOfYear() == date4.getMonthOfYear() &&
+//                date3.getYear() == date4.getYear();
     }
 }
