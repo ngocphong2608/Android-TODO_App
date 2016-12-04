@@ -6,20 +6,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  * Created by NgocPhong on 29/05/2016.
  */
 public class ConfigManager implements Serializable {
-    enum MENU_ITEM {YESTERDAY, TODAY, TOMORROW, UNFINISHED, FINISHED}
+    public enum MENU_ITEM {YESTERDAY, TODAY, TOMORROW, UNFINISHED, FINISHED}
 
     public static MENU_ITEM selectedItem = MENU_ITEM.TODAY;
     public static String saveTaskFileName = "AllTask.dat";

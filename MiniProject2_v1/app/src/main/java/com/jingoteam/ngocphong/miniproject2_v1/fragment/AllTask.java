@@ -1,4 +1,4 @@
-package com.jingoteam.ngocphong.miniproject2_v1.MyFragment;
+package com.jingoteam.ngocphong.miniproject2_v1.fragment;
 
 
 import android.os.Bundle;
@@ -7,10 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.jingoteam.ngocphong.miniproject2_v1.MainActivity;
-import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
+import com.jingoteam.ngocphong.miniproject2_v1.activity.MainActivity;
+import com.jingoteam.ngocphong.miniproject2_v1.adapter.ListViewTaskAdapter;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;

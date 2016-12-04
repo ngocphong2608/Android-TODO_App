@@ -1,4 +1,4 @@
-package com.jingoteam.ngocphong.miniproject2_v1;
+package com.jingoteam.ngocphong.miniproject2_v1.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -20,9 +20,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.jingoteam.ngocphong.miniproject2_v1.MyAdapter.ListViewTaskAdapter;
-import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.AllTask;
-import com.jingoteam.ngocphong.miniproject2_v1.MyFragment.GlobalTask;
+import com.jingoteam.ngocphong.miniproject2_v1.ConfigManager;
+import com.jingoteam.ngocphong.miniproject2_v1.adapter.ListViewTaskAdapter;
+import com.jingoteam.ngocphong.miniproject2_v1.fragment.AllTask;
+import com.jingoteam.ngocphong.miniproject2_v1.fragment.GlobalTask;
+import com.jingoteam.ngocphong.miniproject2_v1.R;
+import com.jingoteam.ngocphong.miniproject2_v1.Task;
+import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
 
 import org.joda.time.DateTime;
 

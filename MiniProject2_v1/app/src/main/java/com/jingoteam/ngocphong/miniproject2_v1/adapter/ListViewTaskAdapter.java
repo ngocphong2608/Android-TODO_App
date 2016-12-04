@@ -1,8 +1,7 @@
-package com.jingoteam.ngocphong.miniproject2_v1.MyAdapter;
+package com.jingoteam.ngocphong.miniproject2_v1.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.jingoteam.ngocphong.miniproject2_v1.DateManager;
-import com.jingoteam.ngocphong.miniproject2_v1.MainActivity;
+import com.jingoteam.ngocphong.miniproject2_v1.activity.MainActivity;
 import com.jingoteam.ngocphong.miniproject2_v1.R;
 import com.jingoteam.ngocphong.miniproject2_v1.Task;
 import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
@@ -24,11 +21,8 @@ import com.jingoteam.ngocphong.miniproject2_v1.TaskManager;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.zip.CheckedInputStream;
 
 /**
  * Created by NgocPhong on 29/05/2016.
