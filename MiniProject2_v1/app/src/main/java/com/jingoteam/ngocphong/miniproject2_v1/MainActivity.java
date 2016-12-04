@@ -42,13 +42,6 @@ public class MainActivity extends AppCompatActivity
         ConfigManager.saveAllConfig(this);
     }
 
-
-
-    protected void onDestroy(){
-        super.onDestroy();
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
